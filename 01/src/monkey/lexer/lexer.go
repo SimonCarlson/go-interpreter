@@ -3,10 +3,10 @@ package lexer
 import "monkey/token"
 
 type Lexer struct {
-	input			string
-	position		int
-	readPosition	int
-	ch				byte
+	input        string
+	position     int
+	readPosition int
+	ch           byte
 }
 
 func New(input string) *Lexer {
@@ -133,4 +133,3 @@ func (l *Lexer) readNumber() string {
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
-
