@@ -1,2 +1,7 @@
 waiig_code_1.3.zip
 waiig_code_1.3/*
+pkg/
+**/src/github.com
+**/src/golang.org
+**/src/monkey/monkey
+**/bin
