@@ -1,9 +1,12 @@
 package evaluator
 
-import "monkey/object"
+import (
+	"fmt"
+	"monkey/object"
+)
 
 var builtins = map[string]*object.Builtin{
-	"len": &object.Builtin {
+	"len": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
 				return newError("wrong number of arguments. got=%d, want=1", len(args))
@@ -20,7 +23,7 @@ var builtins = map[string]*object.Builtin{
 			}
 		},
 	},
-	"first": &object.Builtin {
+	"first": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
 				return newError("wrong number of arguments. got=%d, want=1", len(args))
@@ -37,7 +40,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
-	"last": &object.Builtin {
+	"last": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
 				return newError("wrong number of arguments. got=%d, want=1", len(args))
@@ -49,13 +52,13 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 			if length > 0 {
-				return arr.Elements[length - 1]
+				return arr.Elements[length-1]
 			}
 
 			return NULL
 		},
 	},
-	"rest": &object.Builtin {
+	"rest": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
 				return newError("wrong number of arguments. got=%d, want=1", len(args))
@@ -67,7 +70,7 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 			if length > 0 {
-				newElements := make([]object.Object, length - 1, length - 1)
+				newElements := make([]object.Object, length-1, length-1)
 				copy(newElements, arr.Elements[1:length])
 				return &object.Array{Elements: newElements}
 			}
@@ -75,7 +78,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
-	"push": &object.Builtin {
+	"push": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {
 				return newError("wrong number of arguments. got=%d, want=2", len(args))
@@ -87,11 +90,20 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 
-			newElements := make([]object.Object, length + 1, length + 1)
+			newElements := make([]object.Object, length+1, length+1)
 			copy(newElements, arr.Elements)
 			newElements[length] = args[1]
 
 			return &object.Array{Elements: newElements}
+		},
+	},
+	"puts": &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			for _, arg := range args {
+				fmt.Println(arg.Inspect())
+			}
+
+			return NULL
 		},
 	},
 }
